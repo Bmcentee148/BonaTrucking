@@ -133,6 +133,41 @@ section{padding:96px 0}
 .areas{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px}
 .areas span{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--steel);border:1px solid var(--line);border-radius:2px;padding:.4rem .7rem}
 
+/* gallery */
+.gallery{background:var(--cream)}
+.gal-grid{margin-top:52px;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:210px;gap:16px}
+.gal-item{position:relative;overflow:hidden;border-radius:3px;border:1px solid var(--line-dark);background:var(--navy);cursor:pointer;padding:0}
+.gal-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.gal-item:hover img{transform:scale(1.06)}
+.gal-item.feature{grid-column:span 2;grid-row:span 2}
+.gal-item::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(4,25,54,.6),transparent 44%);opacity:0;transition:opacity .25s;pointer-events:none}
+.gal-item:hover::after,.gal-item:focus-visible::after{opacity:1}
+.gal-item:focus-visible{outline:3px solid var(--signal);outline-offset:2px}
+.gal-cap{position:absolute;left:16px;right:16px;bottom:14px;z-index:2;text-align:left;color:#fff;font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;line-height:1.35;opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s;pointer-events:none}
+.gal-item:hover .gal-cap,.gal-item:focus-visible .gal-cap{opacity:1;transform:none}
+@media(max-width:900px){
+  .gal-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:180px}
+  .gal-item.feature{grid-column:span 2;grid-row:span 1}
+  .gal-cap{opacity:1;transform:none}
+  .gal-item::after{opacity:1}
+}
+@media(max-width:520px){
+  .gal-grid{grid-template-columns:1fr;grid-auto-rows:230px}
+  .gal-item.feature{grid-column:span 1}
+}
+
+/* lightbox */
+.lightbox{position:fixed;inset:0;z-index:200;background:rgba(3,9,20,.93);display:flex;align-items:center;justify-content:center;padding:44px}
+.lightbox[hidden]{display:none}
+.lb-img{max-width:90vw;max-height:80vh;object-fit:contain;border-radius:3px;box-shadow:0 30px 90px rgba(0,0,0,.55)}
+.lb-close{position:absolute;top:18px;right:24px;background:none;border:none;color:#fff;font-size:2.6rem;line-height:1;cursor:pointer}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--line);color:#fff;font-size:1.9rem;cursor:pointer;display:grid;place-items:center;transition:background .18s}
+.lb-nav:hover{background:var(--signal)}
+.lb-prev{left:24px}
+.lb-next{right:24px}
+.lb-cap{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:var(--steel);font-family:var(--mono);font-size:.76rem;letter-spacing:.08em;padding:0 20px}
+@media(max-width:560px){.lb-nav{width:42px;height:42px;font-size:1.5rem}.lb-prev{left:8px}.lb-next{right:8px}.lb-img{max-height:74vh}}
+
 /* about */
 .about{background:var(--cream-2)}
 .about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
@@ -239,6 +274,7 @@ footer{background:var(--ink);color:var(--steel);padding:56px 0 30px;border-top:1
     <nav class="links" id="navlinks">
       <a href="#services">Services</a>
       <a href="#coverage">Coverage</a>
+      <a href="#gallery">Gallery</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
       <a href="tel:631-639-6744" class="menu-call">
@@ -340,6 +376,39 @@ footer{background:var(--ink);color:var(--steel);padding:56px 0 30px;border-top:1
     </div>
   </section>
 
+  <!-- GALLERY -->
+  <section class="gallery" id="gallery">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="tag">On the road</span>
+        <h2>The work, up close</h2>
+        <p>Real loads, real routes — from the yard in Hauppauge to job sites across the city and the Island. Tap any photo to take a closer look.</p>
+      </div>
+      <div class="gal-grid reveal">
+        <button type="button" class="gal-item feature" data-cap="The F. Bonavise fleet at the Hauppauge yard">
+          <img src="images/gallery/fleet-yard.jpg" alt="Two F. Bonavise Trucking box trucks parked at the Hauppauge yard at dusk" loading="lazy" width="1200" height="1600">
+          <span class="gal-cap">Our fleet at the Hauppauge yard</span>
+        </button>
+        <button type="button" class="gal-item" data-cap="Rolling over the George Washington Bridge into the city">
+          <img src="images/gallery/gw-bridge.jpg" alt="A freight truck crossing the George Washington Bridge, a large American flag hung from the tower" loading="lazy" width="1600" height="1600">
+          <span class="gal-cap">Over the GW Bridge into the city</span>
+        </button>
+        <button type="button" class="gal-item" data-cap="Heavy tanks strapped and secured for transport">
+          <img src="images/gallery/pressure-tanks.jpg" alt="Large red pressure tanks strapped down inside a F. Bonavise box truck" loading="lazy" width="1600" height="1594">
+          <span class="gal-cap">Heavy freight, strapped and secured</span>
+        </button>
+        <button type="button" class="gal-item" data-cap="A full load palletized and ready to roll">
+          <img src="images/gallery/loaded-truck.jpg" alt="Interior of a loaded box truck with palletized freight bound for the Bronx" loading="lazy" width="1600" height="1583">
+          <span class="gal-cap">Loaded and ready to roll</span>
+        </button>
+        <button type="button" class="gal-item" data-cap="Liftgate delivery to a NYC job site">
+          <img src="images/gallery/liftgate-delivery.jpg" alt="Crated industrial valves lowered on a liftgate at a New York City job site" loading="lazy" width="1284" height="1600">
+          <span class="gal-cap">Liftgate delivery, right to the job site</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
   <!-- ABOUT -->
   <section class="about" id="about">
     <div class="wrap">
@@ -432,6 +501,7 @@ footer{background:var(--ink);color:var(--steel);padding:56px 0 30px;border-top:1
           <h4>Company</h4>
           <a href="#services">Services</a>
           <a href="#coverage">Coverage</a>
+          <a href="#gallery">Gallery</a>
           <a href="#about">About</a>
           <a href="#contact">Contact</a>
         </div>
@@ -454,6 +524,14 @@ footer{background:var(--ink);color:var(--steel);padding:56px 0 30px;border-top:1
     </div>
   </div>
 </footer>
+
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lb-close" id="lbClose" aria-label="Close gallery">&times;</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous photo">&#8249;</button>
+  <img class="lb-img" id="lbImg" src="" alt="">
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Next photo">&#8250;</button>
+  <div class="lb-cap" id="lbCap"></div>
+</div>
 
 <script>
 // mobile menu
@@ -485,6 +563,35 @@ if(cf){
       });
   });
 }
+// gallery lightbox
+(function(){
+  var items=[].slice.call(document.querySelectorAll('.gal-item'));
+  if(!items.length) return;
+  var lb=document.getElementById('lightbox'),
+      lbImg=document.getElementById('lbImg'),
+      lbCap=document.getElementById('lbCap'),
+      cur=0;
+  function show(i){
+    cur=(i+items.length)%items.length;
+    var img=items[cur].querySelector('img');
+    lbImg.src=img.getAttribute('src');
+    lbImg.alt=img.getAttribute('alt');
+    lbCap.textContent=items[cur].getAttribute('data-cap')||'';
+  }
+  function open(i){ show(i); lb.hidden=false; document.body.style.overflow='hidden'; }
+  function close(){ lb.hidden=true; lbImg.src=''; document.body.style.overflow=''; }
+  items.forEach(function(it,i){ it.addEventListener('click',function(){ open(i); }); });
+  document.getElementById('lbClose').addEventListener('click',close);
+  document.getElementById('lbPrev').addEventListener('click',function(){ show(cur-1); });
+  document.getElementById('lbNext').addEventListener('click',function(){ show(cur+1); });
+  lb.addEventListener('click',function(e){ if(e.target===lb) close(); });
+  document.addEventListener('keydown',function(e){
+    if(lb.hidden) return;
+    if(e.key==='Escape') close();
+    else if(e.key==='ArrowLeft') show(cur-1);
+    else if(e.key==='ArrowRight') show(cur+1);
+  });
+})();
 
 </script>
 </body>
