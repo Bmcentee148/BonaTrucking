@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Single-page static marketing website for F. Bonavise Trucking, a family-owned Long Island freight delivery company. There is **no build system, no dependencies, and no package manager** — the entire site is one hand-authored file, `index.html`.
 
+The canonical/live domain is the apex **https://bonatrucking.com/** (no `www`) — canonical tag, `og:url`, JSON-LD, `robots.txt`, and `sitemap.xml` all point there, and absolute asset URLs (e.g. `og:image`) use it. If the domain ever changes, update all of those together.
+
 ## Running / Developing
 
 - Preview: open `index.html` directly in a browser, or serve the folder (`python3 -m http.server`).
@@ -33,3 +35,9 @@ The `images/` directory holds source photos/logos (HEIC, JPEG, PNG). Two image p
 - **Gallery photos**: web-optimized JPEGs in `images/gallery/`, referenced by `<img loading="lazy">` (not inlined, to keep `index.html` from bloating). Source phone photos are large and some are HEIC (which browsers can't display) — convert/resize with `sips` before adding, e.g. `sips -s format jpeg -Z 1600 -s formatOptions 80 SRC.HEIC --out images/gallery/name.jpg`. Note some iPhone JPEGs carry an EXIF orientation flag, so the browser's decoded width/height can be transposed vs. what `sips` reports; set the `<img width/height>` from the browser's `naturalWidth`/`naturalHeight`.
 
 The gallery is a CSS-grid mosaic (`.gal-grid`, one `.feature` tile spans 2×2) with a vanilla-JS lightbox (`#lightbox`) supporting click, prev/next, backdrop-click, Esc, and arrow keys. Each `.gal-item` is a `<button>` carrying a `data-cap` caption; the lightbox reads `src`/`alt`/`data-cap` off the items, so adding a photo needs no JS changes.
+
+The social share image `images/og-image.jpg` (1200×630, badge on navy) was composed from `images/Logo_v2.png` via an offscreen `<canvas>` (circle-clip to drop the logo's white corners), since there's no ImageMagick/rsvg locally — only `sips` and `ffmpeg`. Same trick works for any PNG-from-SVG/compositing need. `favicon.svg` is an inline "FB" monogram (SVG only, no PNG fallbacks).
+
+## SEO
+
+Head carries: `<link rel="canonical">`, full Open Graph + Twitter Card tags, and a `LocalBusiness` JSON-LD block (name, phone `+1-631-639-6744`, Hauppauge NY address, `areaServed`, hours, `sameAs` socials, `foundingDate` 1980). `robots.txt` and `sitemap.xml` live at the repo root. Keep NAP (name/address/phone) consistent across the visible contact section and the JSON-LD when editing either.
